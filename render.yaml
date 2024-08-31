@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: spam-checker-api
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: spam-detector-api
+          property: connectionString
+      - key: JWT_SECRET
+        value: your-jwt-secret-key
+    databases:
+      - name: spam-detector-api
+
+databases:
+  - name: render
+    plan: free
+    engine: postgresql
